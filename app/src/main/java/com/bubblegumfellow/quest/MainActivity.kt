@@ -20,7 +20,6 @@ class MainActivity : AppCompatActivity() {
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
-        // Inflate the menu; this adds items to the action bar if it is present.
         menuInflater.inflate(R.menu.menu_main, menu)
         return true
     }
@@ -40,7 +39,6 @@ class MainActivity : AppCompatActivity() {
 
     @OnClick(R.id.fab)
     fun onClickFab() {
-        Snackbar.make(container, "Replace with your own action", Snackbar.LENGTH_LONG)
-                .setAction("Action", null).show()
+        // do something here
     }
 }
