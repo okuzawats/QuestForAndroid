@@ -1,12 +1,12 @@
-package com.bubblegumfellow.quest
+package com.bubblegumfellow.quest.activity
 
 import android.content.Intent
 import android.os.Bundle
-import android.support.design.widget.Snackbar
 import android.support.v7.app.AppCompatActivity
 import android.view.Menu
 import android.view.MenuItem
 import butterknife.OnClick
+import com.bubblegumfellow.quest.R
 import com.google.android.gms.oss.licenses.OssLicensesMenuActivity
 
 import kotlinx.android.synthetic.main.activity_main.*
