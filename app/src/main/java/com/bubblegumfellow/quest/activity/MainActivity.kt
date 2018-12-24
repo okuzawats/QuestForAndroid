@@ -5,11 +5,11 @@ import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.view.Menu
 import android.view.MenuItem
+import butterknife.ButterKnife
 import butterknife.OnClick
-import com.bubblegumfellow.quest.fragment.MainFragment
 import com.bubblegumfellow.quest.R
+import com.bubblegumfellow.quest.fragment.MainFragment
 import com.google.android.gms.oss.licenses.OssLicensesMenuActivity
-
 import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity() {
@@ -18,6 +18,8 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         setSupportActionBar(toolbar)
+
+        ButterKnife.bind(this)
 
         if (savedInstanceState == null) {
             supportFragmentManager.beginTransaction().apply {
