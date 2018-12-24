@@ -6,6 +6,7 @@ import android.support.v7.app.AppCompatActivity
 import android.view.Menu
 import android.view.MenuItem
 import butterknife.OnClick
+import com.bubblegumfellow.quest.fragment.MainFragment
 import com.bubblegumfellow.quest.R
 import com.google.android.gms.oss.licenses.OssLicensesMenuActivity
 
@@ -17,6 +18,13 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         setSupportActionBar(toolbar)
+
+        if (savedInstanceState == null) {
+            supportFragmentManager.beginTransaction().apply {
+                add(R.id.container, MainFragment())
+                commit()
+            }
+        }
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
