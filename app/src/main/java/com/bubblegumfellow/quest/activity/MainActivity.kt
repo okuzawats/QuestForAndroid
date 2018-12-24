@@ -21,7 +21,7 @@ class MainActivity : AppCompatActivity() {
 
         if (savedInstanceState == null) {
             supportFragmentManager.beginTransaction().apply {
-                add(R.id.container, MainFragment())
+                add(R.id.container, MainFragment.getInstance())
                 commit()
             }
         }
