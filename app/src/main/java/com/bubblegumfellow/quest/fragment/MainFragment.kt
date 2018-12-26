@@ -31,6 +31,7 @@ class MainFragment: Fragment(), MainViewHolder.ItemClickListener {
 
         val context = context ?: return
 
+        // TODO：Realmからデータを読み込む
         val items = mutableListOf<String>().apply {
             add("hoge")
             add("fuga")
@@ -123,8 +124,4 @@ class MainViewHolder(view: View): RecyclerView.ViewHolder(view) {
     }
 
     val titleTextView = view.titleTextView
-
-    init {
-
-    }
 }
