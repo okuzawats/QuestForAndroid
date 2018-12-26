@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
+import android.support.v7.widget.helper.ItemTouchHelper
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -58,6 +59,19 @@ class MainFragment: Fragment(), MainViewHolder.ItemClickListener {
             adapter = MainAdapter(context, this@MainFragment, items)
             layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
         }
+
+        // スワイプでRecyclerViewの項目を削除する
+        ItemTouchHelper(object : ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT or ItemTouchHelper.RIGHT) {
+            override fun onMove(recyclerView: RecyclerView, viewHolder: RecyclerView.ViewHolder, to: RecyclerView.ViewHolder): Boolean {
+                return false
+            }
+
+            override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
+                viewHolder.let {
+                    recyclerView.adapter?.notifyItemRemoved(viewHolder.adapterPosition)
+                }
+            }
+        }).attachToRecyclerView(recyclerView)
     }
 
     override fun onItemClick(view: View, position: Int) {
