@@ -35,6 +35,9 @@ dependencies {
     androidTestImplementation 'androidx.test:runner:1.1.1'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.1.1'
 
+    // DragDropSwipeRecyclerView
+    implementation 'com.ernestoyaquello.dragdropswiperecyclerview:drag-drop-swipe-recyclerview:0.1.0'
+
     // Oss Licenses
     implementation 'com.google.android.gms:play-services-oss-licenses:16.0.1'
 
