@@ -1,6 +1,7 @@
 package com.bubblegumfellow.quest.fragment
 
 import android.content.Context
+import android.graphics.Canvas
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v7.widget.LinearLayoutManager
@@ -71,6 +72,11 @@ class MainFragment: Fragment(), MainViewHolder.ItemClickListener {
                 viewHolder.let {
                     recyclerView.adapter?.notifyItemRemoved(viewHolder.adapterPosition)
                 }
+            }
+
+            override fun onChildDraw(c: Canvas, recyclerView: RecyclerView, viewHolder: RecyclerView.ViewHolder, dX: Float, dY: Float, actionState: Int, isCurrentlyActive: Boolean) {
+                super.onChildDraw(c, recyclerView, viewHolder, dX, dY, actionState, isCurrentlyActive)
+                
             }
         }).attachToRecyclerView(recyclerView)
     }
