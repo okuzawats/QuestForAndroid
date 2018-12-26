@@ -59,7 +59,7 @@ class MainFragment: Fragment(), MainViewHolder.ItemClickListener {
 
         recyclerView.apply {
             adapter = MainAdapter(context, this@MainFragment, items)
-            layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
+            layoutManager = LinearLayoutManager(context, RecyclerView.VERTICAL, false)
         }
 
         // スワイプでRecyclerViewの項目を削除する

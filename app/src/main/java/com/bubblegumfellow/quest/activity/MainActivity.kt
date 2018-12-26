@@ -5,8 +5,6 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import android.view.Menu
 import android.view.MenuItem
-//import butterknife.ButterKnife
-//import butterknife.OnClick
 import com.bubblegumfellow.quest.R
 import com.bubblegumfellow.quest.fragment.MainFragment
 import com.google.android.gms.oss.licenses.OssLicensesMenuActivity
@@ -19,13 +17,15 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
         setSupportActionBar(toolbar)
 
-        //ButterKnife.bind(this)
-
         if (savedInstanceState == null) {
             supportFragmentManager.beginTransaction().apply {
                 add(R.id.container, MainFragment.getInstance())
                 commit()
             }
+        }
+
+        fab.setOnClickListener {
+            // do something here
         }
     }
 
@@ -46,9 +46,4 @@ class MainActivity : AppCompatActivity() {
             else -> super.onOptionsItemSelected(item)
         }
     }
-
-//    @OnClick(R.id.fab)
-//    fun onClickFab() {
-//        // do something here
-//    }
 }
