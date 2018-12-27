@@ -1,20 +1,46 @@
 package com.bubblegumfellow.quest.fragment
 
-import android.content.Context
-import android.graphics.Canvas
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import androidx.recyclerview.widget.ItemTouchHelper
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
+import android.widget.TextView
 import com.bubblegumfellow.quest.R
+import com.ernestoyaquello.dragdropswiperecyclerview.DragDropSwipeAdapter
+import com.ernestoyaquello.dragdropswiperecyclerview.DragDropSwipeRecyclerView
+import com.ernestoyaquello.dragdropswiperecyclerview.listener.OnItemDragListener
+import com.ernestoyaquello.dragdropswiperecyclerview.listener.OnItemSwipeListener
+import com.ernestoyaquello.dragdropswiperecyclerview.listener.OnListScrollListener
 import kotlinx.android.synthetic.main.fragment_main.*
 import kotlinx.android.synthetic.main.item_main.view.*
 
-class MainFragment: Fragment(), MainViewHolder.ItemClickListener {
+class MainFragment: Fragment() {
+
+    private val onItemSwipeListener = object : OnItemSwipeListener<String> {
+        override fun onItemSwiped(position: Int, direction: OnItemSwipeListener.SwipeDirection, item: String): Boolean {
+            return false
+        }
+    }
+
+    private val onItemDragListener = object : OnItemDragListener<String> {
+        override fun onItemDragged(previousPosition: Int, newPosition: Int, item: String) {
+            // NOP
+        }
+
+        override fun onItemDropped(initialPosition: Int, finalPosition: Int, item: String) {
+            // NOP
+        }
+    }
+
+    private val onListScrollListener = object : OnListScrollListener {
+        override fun onListScrolled(scrollDirection: OnListScrollListener.ScrollDirection, distance: Int) {
+            // NOP
+        }
+    }
 
     companion object {
         fun getInstance(): MainFragment {
@@ -33,101 +59,34 @@ class MainFragment: Fragment(), MainViewHolder.ItemClickListener {
         val context = context ?: return
 
         // TODO：Realmからデータを読み込む
-        val items = mutableListOf<String>().apply {
-            add("hoge")
-            add("fuga")
-            add("piyo")
-            add("hoge")
-            add("fuga")
-            add("piyo")
-            add("hoge")
-            add("fuga")
-            add("piyo")
-            add("hoge")
-            add("fuga")
-            add("piyo")
-            add("hoge")
-            add("fuga")
-            add("piyo")
-            add("hoge")
-            add("fuga")
-            add("piyo")
-            add("hoge")
-            add("fuga")
-            add("piyo")
-        }
+        val items = listOf("hoge", "fuga", "piyo")
 
         recyclerView.apply {
-            adapter = MainAdapter(context, this@MainFragment, items)
-            layoutManager = LinearLayoutManager(context, RecyclerView.VERTICAL, false)
+            layoutManager = LinearLayoutManager(context)
+            adapter = MyAdapter(items)
+            orientation = DragDropSwipeRecyclerView.ListOrientation.VERTICAL_LIST_WITH_VERTICAL_DRAGGING
+            swipeListener = onItemSwipeListener
+            dragListener = onItemDragListener
+            scrollListener = onListScrollListener
         }
-
-        // スワイプでRecyclerViewの項目を削除する
-        ItemTouchHelper(object : ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT or ItemTouchHelper.RIGHT) {
-            override fun onMove(recyclerView: RecyclerView, viewHolder: RecyclerView.ViewHolder, to: RecyclerView.ViewHolder): Boolean {
-                return false
-            }
-
-            override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
-                viewHolder.let {
-                    recyclerView.adapter?.notifyItemRemoved(viewHolder.adapterPosition)
-                }
-            }
-
-            override fun onChildDraw(c: Canvas, recyclerView: RecyclerView, viewHolder: RecyclerView.ViewHolder, dX: Float, dY: Float, actionState: Int, isCurrentlyActive: Boolean) {
-                super.onChildDraw(c, recyclerView, viewHolder, dX, dY, actionState, isCurrentlyActive)
-                
-            }
-        }).attachToRecyclerView(recyclerView)
-    }
-
-    override fun onItemClick(view: View, position: Int) {
-        // do something here
     }
 }
 
-class MainAdapter(private val context: Context,
-                  private val itemClickListener: MainViewHolder.ItemClickListener,
-                  private val itemList: List<String>): RecyclerView.Adapter<MainViewHolder>() {
+class MyAdapter(dataSet: List<String> = mutableListOf())
+    : DragDropSwipeAdapter<String, MyAdapter.ViewHolder>(dataSet) {
 
-    private var recyclerView: RecyclerView? = null
-
-    override fun onAttachedToRecyclerView(recyclerView: RecyclerView) {
-        super.onAttachedToRecyclerView(recyclerView)
-        this.recyclerView = recyclerView
+    class ViewHolder(itemView: View) : DragDropSwipeAdapter.ViewHolder(itemView) {
+        val titleTextView: TextView = itemView.titleTextView
+        val dragIcon: ImageView = itemView.dragIconImageView
     }
 
-    override fun onDetachedFromRecyclerView(recyclerView: RecyclerView) {
-        super.onDetachedFromRecyclerView(recyclerView)
-        this.recyclerView = null
+    override fun getViewHolder(itemView: View) = MyAdapter.ViewHolder(itemView)
+
+    override fun onBindViewHolder(item: String, viewHolder: MyAdapter.ViewHolder, position: Int) {
+        viewHolder.titleTextView.text = item
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MainViewHolder {
-        val layoutInflater = LayoutInflater.from(context)
-        val view = layoutInflater.inflate(R.layout.item_main, parent, false)
-
-        view.setOnClickListener { v ->
-            recyclerView?.let {
-                itemClickListener.onItemClick(v, it.getChildAdapterPosition(v))
-            }
-        }
-
-        return MainViewHolder(view)
+    override fun getViewToTouchToStartDraggingItem(item: String, viewHolder: MyAdapter.ViewHolder, position: Int): View? {
+        return viewHolder.dragIcon
     }
-
-    override fun getItemCount(): Int {
-        return itemList.size
-    }
-
-    override fun onBindViewHolder(holder: MainViewHolder, position: Int) {
-        holder.titleTextView.text = itemList.get(position)
-    }
-}
-
-class MainViewHolder(view: View): RecyclerView.ViewHolder(view) {
-    interface ItemClickListener {
-        fun onItemClick(view: View, position: Int)
-    }
-
-    val titleTextView = view.titleTextView
 }
