@@ -14,6 +14,7 @@
         app:behind_swiped_item_icon_margin="8dp"
         app:behind_swiped_item_bg_color_secondary="@color/green"
         app:behind_swiped_item_icon_secondary="@drawable/ic_check_black_24dp"
+        app:divider="@drawable/divider"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
