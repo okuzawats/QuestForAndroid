@@ -41,6 +41,9 @@ dependencies {
     // Oss Licenses
     implementation 'com.google.android.gms:play-services-oss-licenses:16.0.1'
 
+    // Round Corner Progress Bar
+    implementation 'com.akexorcist:RoundCornerProgressBar:2.0.3'
+
     // Timber
     implementation 'com.jakewharton.timber:timber:4.7.1'
 }

@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="@color/colorPrimaryLight"
     android:foreground="?android:attr/selectableItemBackground">
 
@@ -11,41 +11,51 @@
         android:layout_height="match_parent">
 
         <LinearLayout
-            android:orientation="vertical"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
 
             <TextView
-                android:id="@+id/childCountTotalTextView"
-                android:text="4/8"
-                android:gravity="end"
-                android:padding="2dp"
-                android:textSize="12sp"
-                android:textColor="@color/textSecondary"
+                android:id="@+id/childCountTextView"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintRight_toRightOf="parent" />
+                android:gravity="end"
+                android:padding="2dp"
+                android:textColor="@color/textSecondary"
+                android:textSize="12sp"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
                 android:id="@+id/titleTextView"
-                android:padding="8dp"
-                android:textSize="16sp"
-                android:textColor="@color/textPrimary"
-                android:maxLines="1"
-                android:ellipsize="end"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:layout_constraintTop_toBottomOf="@id/childCountTotalTextView"
+                android:ellipsize="end"
+                android:maxLines="1"
+                android:padding="8dp"
+                android:textColor="@color/textPrimary"
+                android:textSize="16sp"
                 app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintRight_toRightOf="parent" />
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/childCountTextView" />
+
+            <com.akexorcist.roundcornerprogressbar.RoundCornerProgressBar
+                android:id="@+id/progressBar"
+                android:layout_width="match_parent"
+                android:layout_height="32dp"
+                android:padding="8dp"
+                app:rcBackgroundColor="@color/divider"
+                app:rcBackgroundPadding="2dp"
+                app:rcProgressColor="@color/colorAccent"
+                app:rcRadius="2dp" />
 
         </LinearLayout>
 
         <ImageView
             android:id="@+id/dragIconImageView"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:contentDescription="icon" />
 
     </FrameLayout>
 </androidx.cardview.widget.CardView>

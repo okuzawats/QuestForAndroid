@@ -8,6 +8,7 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.akexorcist.roundcornerprogressbar.RoundCornerProgressBar
 import com.bubblegumfellow.quest.R
 import com.ernestoyaquello.dragdropswiperecyclerview.DragDropSwipeAdapter
 import com.ernestoyaquello.dragdropswiperecyclerview.DragDropSwipeRecyclerView
@@ -16,6 +17,7 @@ import com.ernestoyaquello.dragdropswiperecyclerview.listener.OnItemSwipeListene
 import com.ernestoyaquello.dragdropswiperecyclerview.listener.OnListScrollListener
 import kotlinx.android.synthetic.main.fragment_main.*
 import kotlinx.android.synthetic.main.item_main.view.*
+import java.util.*
 
 class MainFragment: Fragment() {
 
@@ -58,9 +60,9 @@ class MainFragment: Fragment() {
         val context = context ?: return
 
         // TODO：Realmからデータを読み込む
-        val items = listOf("hogehogehogehogehogehogehogehogehogehogehogehogehoge",
-                "fugafugafugafugafugafugafugafugafugafugafugafugafugafuga",
-                "piyopiyopiyopiyopiyopiyopiyopiyopiyopiyopiyopiyopiyopiyo")
+        val items = listOf("ToDoリストのアプリを作る",
+                "Kotlinインアクションを読む",
+                "新しいWebサイトを作る")
 
         recyclerView.apply {
             layoutManager = LinearLayoutManager(context)
@@ -76,14 +78,25 @@ class MainFragment: Fragment() {
 class MyAdapter(dataSet: List<String> = mutableListOf()): DragDropSwipeAdapter<String, MyAdapter.ViewHolder>(dataSet) {
 
     class ViewHolder(itemView: View) : DragDropSwipeAdapter.ViewHolder(itemView) {
+        val childCountTextView: TextView = itemView.childCountTextView
         val titleTextView: TextView = itemView.titleTextView
+        val progressBar: RoundCornerProgressBar = itemView.progressBar
         val dragIcon: ImageView = itemView.dragIconImageView
     }
 
     override fun getViewHolder(itemView: View) = MyAdapter.ViewHolder(itemView)
 
     override fun onBindViewHolder(item: String, viewHolder: MyAdapter.ViewHolder, position: Int) {
+        val random = Random()
+        val total = random.nextInt(10)
+        val checked = random.nextInt(total)
+
+        viewHolder.childCountTextView.text = "$checked/$total"
         viewHolder.titleTextView.text = item
+        viewHolder.progressBar.apply {
+            max = total.toFloat()
+            progress = checked.toFloat()
+        }
     }
 
     override fun getViewToTouchToStartDraggingItem(item: String, viewHolder: MyAdapter.ViewHolder, position: Int): View? {
