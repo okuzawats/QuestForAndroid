@@ -4,10 +4,16 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <androidx.recyclerview.widget.RecyclerView
+    <com.ernestoyaquello.dragdropswiperecyclerview.DragDropSwipeRecyclerView
         android:id="@+id/recyclerView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        app:item_layout="@layout/item_main"
+        app:behind_swiped_item_bg_color="@color/colorAccent"
+        app:behind_swiped_item_icon="@drawable/ic_add_black_24dp"
+        app:behind_swiped_item_icon_margin="8dp"
+        app:behind_swiped_item_bg_color_secondary="@color/colorAccent"
+        app:behind_swiped_item_icon_secondary="@drawable/ic_add_black_24dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
