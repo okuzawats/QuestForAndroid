@@ -1,14 +1,13 @@
 package com.bubblegumfellow.quest.fragment
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
-import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.fragment.app.Fragment
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.bubblegumfellow.quest.R
 import com.ernestoyaquello.dragdropswiperecyclerview.DragDropSwipeAdapter
 import com.ernestoyaquello.dragdropswiperecyclerview.DragDropSwipeRecyclerView
@@ -59,7 +58,9 @@ class MainFragment: Fragment() {
         val context = context ?: return
 
         // TODO：Realmからデータを読み込む
-        val items = listOf("hoge", "fuga", "piyo")
+        val items = listOf("hogehogehogehogehogehogehogehogehogehogehogehogehoge",
+                "fugafugafugafugafugafugafugafugafugafugafugafugafugafuga",
+                "piyopiyopiyopiyopiyopiyopiyopiyopiyopiyopiyopiyopiyopiyo")
 
         recyclerView.apply {
             layoutManager = LinearLayoutManager(context)
@@ -72,8 +73,7 @@ class MainFragment: Fragment() {
     }
 }
 
-class MyAdapter(dataSet: List<String> = mutableListOf())
-    : DragDropSwipeAdapter<String, MyAdapter.ViewHolder>(dataSet) {
+class MyAdapter(dataSet: List<String> = mutableListOf()): DragDropSwipeAdapter<String, MyAdapter.ViewHolder>(dataSet) {
 
     class ViewHolder(itemView: View) : DragDropSwipeAdapter.ViewHolder(itemView) {
         val titleTextView: TextView = itemView.titleTextView
