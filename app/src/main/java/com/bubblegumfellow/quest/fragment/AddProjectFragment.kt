@@ -27,8 +27,9 @@ class AddProjectFragment: Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         addProjectButton.setOnClickListener {
-            val projectName = projectNameEditText.text.toString()
-            EventBus.getDefault().postSticky(AddProjectEvent(projectName))
+            val projectName = projectNameEditText.text.toString()
+
+            // TODO：ここでRealmに書き込む
 
             activity?.finish()
         }
