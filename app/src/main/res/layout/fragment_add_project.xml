@@ -3,8 +3,14 @@
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <TextView
-        android:text="text"
+    <EditText
+        android:id="@+id/projectNameEditText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <Button
+        android:id="@+id/addProjectButton"
+        android:text="追加"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
 

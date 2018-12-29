@@ -10,6 +10,7 @@ import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.akexorcist.roundcornerprogressbar.RoundCornerProgressBar
 import com.bubblegumfellow.quest.R
+import com.bubblegumfellow.quest.event.AddProjectEvent
 import com.ernestoyaquello.dragdropswiperecyclerview.DragDropSwipeAdapter
 import com.ernestoyaquello.dragdropswiperecyclerview.DragDropSwipeRecyclerView
 import com.ernestoyaquello.dragdropswiperecyclerview.listener.OnItemDragListener
@@ -17,6 +18,9 @@ import com.ernestoyaquello.dragdropswiperecyclerview.listener.OnItemSwipeListene
 import com.ernestoyaquello.dragdropswiperecyclerview.listener.OnListScrollListener
 import kotlinx.android.synthetic.main.fragment_main.*
 import kotlinx.android.synthetic.main.item_main.view.*
+import org.greenrobot.eventbus.EventBus
+import org.greenrobot.eventbus.Subscribe
+import org.greenrobot.eventbus.ThreadMode
 import java.util.*
 
 class MainFragment: Fragment() {
@@ -59,19 +63,32 @@ class MainFragment: Fragment() {
 
         val context = context ?: return
 
-        // TODO：Realmからデータを読み込む
-        val items = listOf("ToDoリストのアプリを作る",
-                "Kotlinインアクションを読む",
-                "新しいWebサイトを作る")
-
         recyclerView.apply {
+            adapter = MyAdapter(mutableListOf<String>())
             layoutManager = LinearLayoutManager(context)
-            adapter = MyAdapter(items)
             orientation = DragDropSwipeRecyclerView.ListOrientation.VERTICAL_LIST_WITH_VERTICAL_DRAGGING
             swipeListener = onItemSwipeListener
             dragListener = onItemDragListener
             scrollListener = onListScrollListener
         }
+    }
+
+    override fun onStart() {
+        super.onStart()
+        EventBus.getDefault().register(this)
+    }
+
+    override fun onStop() {
+        super.onStop()
+        EventBus.getDefault().unregister(this)
+    }
+
+    @Subscribe(sticky = true, threadMode = ThreadMode.MAIN)
+    fun onMessageEvent(event: AddProjectEvent) {
+        val projectName = event.projectName
+
+        // FIXME
+        recyclerView.adapter?.notifyDataSetChanged()
     }
 }
 
@@ -89,7 +106,7 @@ class MyAdapter(dataSet: List<String> = mutableListOf()): DragDropSwipeAdapter<S
     override fun onBindViewHolder(item: String, viewHolder: MyAdapter.ViewHolder, position: Int) {
         val random = Random()
         val total = random.nextInt(10)
-        val checked = random.nextInt(total)
+        val checked = random.nextInt(if (total > 0) total else 1)
 
         viewHolder.childCountTextView.text = "$checked/$total"
         viewHolder.titleTextView.text = item
