@@ -1,5 +1,6 @@
 package com.bubblegumfellow.quest.fragment
 
+import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -8,6 +9,7 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.akexorcist.roundcornerprogressbar.RoundCornerProgressBar
 import com.bubblegumfellow.quest.R
 import com.ernestoyaquello.dragdropswiperecyclerview.DragDropSwipeAdapter
@@ -19,7 +21,7 @@ import kotlinx.android.synthetic.main.fragment_main.*
 import kotlinx.android.synthetic.main.item_main.view.*
 import java.util.*
 
-class MainFragment: Fragment() {
+class MainFragment: Fragment(), MainViewHolder.ItemClickListener {
 
     private val onItemSwipeListener = object : OnItemSwipeListener<String> {
         override fun onItemSwiped(position: Int, direction: OnItemSwipeListener.SwipeDirection, item: String): Boolean {
@@ -59,48 +61,70 @@ class MainFragment: Fragment() {
 
         val context = context ?: return
 
+        // TODO：Reamlからデータを読み込む
+        val items = mutableListOf<String>().apply {
+            add("hoge")
+            add("fuga")
+            add("piyo")
+        }
+
         recyclerView.apply {
-            adapter = MyAdapter(mutableListOf<String>())
+            adapter = MainAdapter(context, this@MainFragment, items)
             layoutManager = LinearLayoutManager(context)
-            orientation = DragDropSwipeRecyclerView.ListOrientation.VERTICAL_LIST_WITH_VERTICAL_DRAGGING
-            swipeListener = onItemSwipeListener
-            dragListener = onItemDragListener
-            scrollListener = onListScrollListener
         }
     }
 
-    override fun onResume() {
-        super.onResume()
-
-        // TODO：ここでRealmから読みこむ
+    override fun onItemClick(view: View, position: Int) {
+        // do something here
     }
 }
 
-class MyAdapter(dataSet: List<String> = mutableListOf()): DragDropSwipeAdapter<String, MyAdapter.ViewHolder>(dataSet) {
+class MainAdapter(private val context: Context,
+                  private val itemClickListener: MainViewHolder.ItemClickListener,
+                  private val items: List<String>): RecyclerView.Adapter<MainViewHolder>() {
+    private var recyclerView: RecyclerView? = null
 
-    class ViewHolder(itemView: View) : DragDropSwipeAdapter.ViewHolder(itemView) {
-        val childCountTextView: TextView = itemView.childCountTextView
-        val titleTextView: TextView = itemView.titleTextView
-        val progressBar: RoundCornerProgressBar = itemView.progressBar
-        val dragIcon: ImageView = itemView.dragIconImageView
+    override fun onAttachedToRecyclerView(recyclerView: RecyclerView) {
+        super.onAttachedToRecyclerView(recyclerView)
+        this.recyclerView = recyclerView
     }
 
-    override fun getViewHolder(itemView: View) = MyAdapter.ViewHolder(itemView)
+    override fun onDetachedFromRecyclerView(recyclerView: RecyclerView) {
+        super.onDetachedFromRecyclerView(recyclerView)
+        this.recyclerView = null
+    }
 
-    override fun onBindViewHolder(item: String, viewHolder: MyAdapter.ViewHolder, position: Int) {
-        val random = Random()
-        val total = random.nextInt(10)
-        val checked = random.nextInt(if (total > 0) total else 1)
+    override fun onBindViewHolder(holder: MainViewHolder, position: Int) {
+        holder.titleTextView.text = items.get(position)
+    }
 
-        viewHolder.childCountTextView.text = "$checked/$total"
-        viewHolder.titleTextView.text = item
-        viewHolder.progressBar.apply {
-            max = total.toFloat()
-            progress = checked.toFloat()
+    override fun getItemCount(): Int {
+        return items.size
+    }
+
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MainViewHolder {
+        val layoutInflater = LayoutInflater.from(context)
+        val view = layoutInflater.inflate(R.layout.item_main, parent, false)
+
+        view.setOnClickListener { _ ->
+            recyclerView?.let {
+                itemClickListener.onItemClick(view, it.getChildAdapterPosition(view))
+            }
         }
+
+        return MainViewHolder(view)
+    }
+}
+
+class MainViewHolder(view: View): RecyclerView.ViewHolder(view) {
+
+    interface ItemClickListener {
+        fun onItemClick(view: View, position: Int)
     }
 
-    override fun getViewToTouchToStartDraggingItem(item: String, viewHolder: MyAdapter.ViewHolder, position: Int): View? {
-        return viewHolder.dragIcon
+    val titleTextView = view.titleTextView
+
+    init {
+        // do something here
     }
 }
