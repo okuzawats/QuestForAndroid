@@ -35,17 +35,11 @@ dependencies {
     androidTestImplementation 'androidx.test:runner:1.1.1'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.1.1'
 
-    // DragDropSwipeRecyclerView
-    implementation 'com.ernestoyaquello.dragdropswiperecyclerview:drag-drop-swipe-recyclerview:0.1.0'
-
     // Event Bus
     implementation 'org.greenrobot:eventbus:3.1.1'
 
     // Oss Licenses
     implementation 'com.google.android.gms:play-services-oss-licenses:16.0.1'
-
-    // Round Corner Progress Bar
-    implementation 'com.akexorcist:RoundCornerProgressBar:2.0.3'
 
     // RxAndroid
     implementation 'io.reactivex.rxjava2:rxandroid:2.1.0'
