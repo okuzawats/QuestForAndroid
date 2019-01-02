@@ -52,7 +52,7 @@ class MainFragment: Fragment(), MainViewHolder.ItemClickListener {
 class MainAdapter(private val context: Context,
                   private val itemClickListener: MainViewHolder.ItemClickListener,
                   private val collection: OrderedRealmCollection<Task>,
-                  private val autoUpdate: Boolean): RealmRecyclerViewAdapter<Task, MainViewHolder>(collection, autoUpdate) {
+                  autoUpdate: Boolean): RealmRecyclerViewAdapter<Task, MainViewHolder>(collection, autoUpdate) {
     private var recyclerView: RecyclerView? = null
 
     override fun onAttachedToRecyclerView(recyclerView: RecyclerView) {
