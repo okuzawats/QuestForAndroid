@@ -67,7 +67,7 @@ class MainAdapter(private val context: Context,
     }
 
     override fun onBindViewHolder(holder: MainViewHolder, position: Int) {
-        holder.titleTextView.text = collection.get(position).text
+        holder.titleTextView.text = collection[position].text
     }
 
     override fun getItemCount(): Int {
