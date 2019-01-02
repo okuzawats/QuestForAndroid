@@ -42,6 +42,7 @@ class MainFragment: Fragment(), MainViewHolder.ItemClickListener {
         recyclerView.apply {
             adapter = MainAdapter(context, this@MainFragment, collection, true)
             layoutManager = LinearLayoutManager(context)
+            setHasFixedSize(true)
         }
     }
 
