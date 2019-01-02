@@ -6,6 +6,8 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import com.bubblegumfellow.quest.R
+import com.bubblegumfellow.quest.realm.Task
+import io.realm.Realm
 import kotlinx.android.synthetic.main.fragment_add_project.*
 
 class AddProjectFragment : Fragment() {
@@ -24,10 +26,16 @@ class AddProjectFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        addProjectButton.setOnClickListener {
+        addProjectButton.setOnClickListener { _ ->
             val projectName = projectNameEditText.text.toString()
 
-            // TODO：ここでRealmに書き込む
+            // TODO：この処理はUseCaseに切り出す
+            val realm = Realm.getDefaultInstance()
+            realm.executeTransaction { r ->
+                val task = Task(1, projectName)
+                r.copyToRealmOrUpdate(task)
+            }
+            realm.close()
 
             activity?.finish()
         }

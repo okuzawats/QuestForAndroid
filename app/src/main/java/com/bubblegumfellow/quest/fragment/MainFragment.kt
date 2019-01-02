@@ -9,6 +9,10 @@ import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bubblegumfellow.quest.R
+import com.bubblegumfellow.quest.realm.Task
+import io.realm.OrderedRealmCollection
+import io.realm.Realm
+import io.realm.RealmRecyclerViewAdapter
 import kotlinx.android.synthetic.main.fragment_main.*
 import kotlinx.android.synthetic.main.item_main.view.*
 
@@ -30,15 +34,12 @@ class MainFragment: Fragment(), MainViewHolder.ItemClickListener {
 
         val context = context ?: return
 
-        // TODO：Reamlからデータを読み込む
-        val items = mutableListOf<String>().apply {
-            add("hoge")
-            add("fuga")
-            add("piyo")
-        }
+        // TODO：この処理はUse Caseに切り出す
+        val realm = Realm.getDefaultInstance()
+        val collection = realm.where(Task::class.java).findAll()
 
         recyclerView.apply {
-            adapter = MainAdapter(context, this@MainFragment, items)
+            adapter = MainAdapter(context, this@MainFragment, collection, true)
             layoutManager = LinearLayoutManager(context)
         }
     }
@@ -50,7 +51,8 @@ class MainFragment: Fragment(), MainViewHolder.ItemClickListener {
 
 class MainAdapter(private val context: Context,
                   private val itemClickListener: MainViewHolder.ItemClickListener,
-                  private val items: List<String>): RecyclerView.Adapter<MainViewHolder>() {
+                  private val collection: OrderedRealmCollection<Task>,
+                  private val autoUpdate: Boolean): RealmRecyclerViewAdapter<Task, MainViewHolder>(collection, autoUpdate) {
     private var recyclerView: RecyclerView? = null
 
     override fun onAttachedToRecyclerView(recyclerView: RecyclerView) {
@@ -64,11 +66,11 @@ class MainAdapter(private val context: Context,
     }
 
     override fun onBindViewHolder(holder: MainViewHolder, position: Int) {
-        holder.titleTextView.text = items.get(position)
+        holder.titleTextView.text = collection.get(position).text
     }
 
     override fun getItemCount(): Int {
-        return items.size
+        return collection.size
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MainViewHolder {
