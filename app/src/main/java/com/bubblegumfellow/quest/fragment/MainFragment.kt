@@ -37,10 +37,10 @@ class MainFragment: Fragment(), MainViewHolder.ItemClickListener {
 
         // TODO：この処理はUse Caseに切り出す
         val realm = Realm.getDefaultInstance()
-        val collection = realm.where(Task::class.java).findAll()
+        val tasks = realm.where(Task::class.java).findAll()
 
         recyclerView.apply {
-            adapter = MainAdapter(context, this@MainFragment, collection, true)
+            adapter = MainAdapter(context, this@MainFragment, tasks, true)
             layoutManager = LinearLayoutManager(context)
             setHasFixedSize(true)
         }
