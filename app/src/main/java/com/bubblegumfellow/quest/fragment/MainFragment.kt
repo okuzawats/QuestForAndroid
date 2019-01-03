@@ -53,8 +53,8 @@ class MainFragment: Fragment(), MainViewHolder.ItemClickListener {
 
 class MainAdapter(private val context: Context,
                   private val itemClickListener: MainViewHolder.ItemClickListener,
-                  private val collection: OrderedRealmCollection<Task>,
-                  autoUpdate: Boolean): RealmRecyclerViewAdapter<Task, MainViewHolder>(collection, autoUpdate) {
+                  private val tasks: OrderedRealmCollection<Task>,
+                  autoUpdate: Boolean): RealmRecyclerViewAdapter<Task, MainViewHolder>(tasks, autoUpdate) {
     private var recyclerView: RecyclerView? = null
 
     override fun onAttachedToRecyclerView(recyclerView: RecyclerView) {
@@ -68,11 +68,11 @@ class MainAdapter(private val context: Context,
     }
 
     override fun onBindViewHolder(holder: MainViewHolder, position: Int) {
-        holder.titleTextView.text = collection[position].text
+        holder.titleTextView.text = tasks[position].text
     }
 
     override fun getItemCount(): Int {
-        return collection.size
+        return tasks.size
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MainViewHolder {
