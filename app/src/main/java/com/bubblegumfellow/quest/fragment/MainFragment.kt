@@ -7,9 +7,11 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.fragment.app.Fragment
+import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bubblegumfellow.quest.R
+import com.bubblegumfellow.quest.SwipeToDismissCallback
 import com.bubblegumfellow.quest.realm.Task
 import io.realm.OrderedRealmCollection
 import io.realm.Realm
@@ -44,6 +46,18 @@ class MainFragment: Fragment(), MainViewHolder.ItemClickListener {
             layoutManager = LinearLayoutManager(context)
             setHasFixedSize(true)
         }
+
+        val swipeHandler = object : SwipeToDismissCallback(context) {
+            override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
+                val adapter = recyclerView.adapter as MainAdapter
+                viewHolder.let {
+                    adapter.removeAt(it.adapterPosition)
+                }
+            }
+        }
+
+        val itemTouchHelper = ItemTouchHelper(swipeHandler)
+        itemTouchHelper.attachToRecyclerView(recyclerView)
     }
 
     override fun onItemClick(view: View, position: Int) {
@@ -86,6 +100,10 @@ class MainAdapter(private val context: Context,
         }
 
         return MainViewHolder(view)
+    }
+
+    fun removeAt(position: Int) {
+        // TODO：データの削除
     }
 }
 
