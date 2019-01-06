@@ -18,6 +18,10 @@ import io.realm.Realm
 import io.realm.RealmRecyclerViewAdapter
 import kotlinx.android.synthetic.main.fragment_main.*
 import kotlinx.android.synthetic.main.item_main.view.*
+import com.bubblegumfellow.quest.R.id.recyclerView
+import androidx.recyclerview.widget.DividerItemDecoration
+
+
 
 class MainFragment: Fragment(), MainViewHolder.ItemClickListener {
 
@@ -41,10 +45,13 @@ class MainFragment: Fragment(), MainViewHolder.ItemClickListener {
         val realm = Realm.getDefaultInstance()
         val tasks = realm.where(Task::class.java).findAll().sort("created")
 
+
+        val dividerItemDecoration = DividerItemDecoration(context, LinearLayoutManager(context).orientation)
         recyclerView.apply {
             adapter = MainAdapter(context, this@MainFragment, tasks, true)
             layoutManager = LinearLayoutManager(context)
             setHasFixedSize(true)
+            addItemDecoration(dividerItemDecoration)
         }
 
         val swipeHandler = object : SwipeToDismissCallback(context) {
