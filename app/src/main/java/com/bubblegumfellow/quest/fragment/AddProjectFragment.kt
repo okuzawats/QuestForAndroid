@@ -27,12 +27,12 @@ class AddProjectFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         addProjectButton.setOnClickListener { _ ->
-            val projectName = projectNameEditText.text.toString()
+            val taskTitle = taskTitleEditText.text.toString()
 
             // TODO：この処理はUseCaseに切り出す
             val realm = Realm.getDefaultInstance()
             realm.executeTransaction { r ->
-                val task = Task(1, projectName)
+                val task = Task(taskTitle = taskTitle)
                 r.copyToRealmOrUpdate(task)
             }
             realm.close()

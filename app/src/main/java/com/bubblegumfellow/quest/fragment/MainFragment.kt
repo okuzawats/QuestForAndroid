@@ -39,7 +39,7 @@ class MainFragment: Fragment(), MainViewHolder.ItemClickListener {
 
         // TODO：この処理はUse Caseに切り出す
         val realm = Realm.getDefaultInstance()
-        val tasks = realm.where(Task::class.java).findAll()
+        val tasks = realm.where(Task::class.java).findAll().sort("created")
 
         recyclerView.apply {
             adapter = MainAdapter(context, this@MainFragment, tasks, true)
@@ -82,7 +82,7 @@ class MainAdapter(private val context: Context,
     }
 
     override fun onBindViewHolder(holder: MainViewHolder, position: Int) {
-        holder.titleTextView.text = tasks[position].text
+        holder.titleTextView.text = tasks[position].taskTitle
     }
 
     override fun getItemCount(): Int {
@@ -104,6 +104,7 @@ class MainAdapter(private val context: Context,
 
     fun removeAt(position: Int) {
         // TODO：データの削除
+
     }
 }
 
