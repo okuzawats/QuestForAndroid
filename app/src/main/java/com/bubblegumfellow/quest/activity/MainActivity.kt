@@ -37,7 +37,6 @@ class MainActivity : AppCompatActivity() {
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return when (item.itemId) {
-            R.id.action_settings -> true
             R.id.action_licenses -> {
                 val intent = Intent(this, OssLicensesMenuActivity::class.java)
                 startActivity(intent)
