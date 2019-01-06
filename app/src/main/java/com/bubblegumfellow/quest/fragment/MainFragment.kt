@@ -43,7 +43,6 @@ class MainFragment: Fragment(), MainViewHolder.ItemClickListener {
         val realm = Realm.getDefaultInstance()
         val tasks = realm.where(Task::class.java).findAll().sort("created")
 
-
         val dividerItemDecoration = DividerItemDecoration(context, LinearLayoutManager(context).orientation)
         recyclerView.apply {
             adapter = MainAdapter(context, this@MainFragment, tasks, true)
@@ -108,8 +107,14 @@ class MainAdapter(private val context: Context,
     }
 
     fun removeAt(position: Int) {
-        // TODO：データの削除
+        val primaryKeyToDelete = tasks[position].id
 
+        // TODO：この処理はUse Caseに切り出す
+        val realm = Realm.getDefaultInstance()
+        realm.executeTransaction { r ->
+            r.where(Task::class.java).equalTo("id", primaryKeyToDelete).findAll().deleteAllFromRealm()
+        }
+        realm.close()
     }
 }
 
