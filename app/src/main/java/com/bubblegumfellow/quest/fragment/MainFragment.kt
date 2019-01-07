@@ -5,24 +5,19 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bubblegumfellow.quest.R
-import com.bubblegumfellow.quest.SwipeToDismissCallback
-import com.bubblegumfellow.quest.contract.MainAdapterContract
+import com.bubblegumfellow.quest.adapter.MainAdapter
+import com.bubblegumfellow.quest.adapter.MainViewHolder
+import com.bubblegumfellow.quest.adapter.SwipeToDismissCallback
 import com.bubblegumfellow.quest.contract.MainContract
-import com.bubblegumfellow.quest.presenter.MainAdapterPresenter
 import com.bubblegumfellow.quest.presenter.MainPresenter
-import com.bubblegumfellow.quest.realm.Task
 import com.bubblegumfellow.quest.usecase.impl.TaskUseCaseImpl
-import io.realm.OrderedRealmCollection
-import io.realm.RealmRecyclerViewAdapter
 import kotlinx.android.synthetic.main.fragment_main.*
-import kotlinx.android.synthetic.main.item_main.view.*
 
 class MainFragment: Fragment(), MainContract.View, MainViewHolder.ItemClickListener {
 
@@ -78,63 +73,6 @@ class MainFragment: Fragment(), MainContract.View, MainViewHolder.ItemClickListe
     }
 
     override fun onItemClick(view: View, position: Int) {
-        // do something here
-    }
-}
-
-class MainAdapter(private val context: Context,
-                  private val itemClickListener: MainViewHolder.ItemClickListener,
-                  private val tasks: OrderedRealmCollection<Task>,
-                  autoUpdate: Boolean): RealmRecyclerViewAdapter<Task, MainViewHolder>(tasks, autoUpdate) {
-
-    private var recyclerView: RecyclerView? = null
-
-    // TODO：DI
-    private var presenter: MainAdapterContract.Presenter = MainAdapterPresenter(TaskUseCaseImpl())
-
-    override fun onAttachedToRecyclerView(recyclerView: RecyclerView) {
-        super.onAttachedToRecyclerView(recyclerView)
-        this.recyclerView = recyclerView
-    }
-
-    override fun onDetachedFromRecyclerView(recyclerView: RecyclerView) {
-        super.onDetachedFromRecyclerView(recyclerView)
-        this.recyclerView = null
-    }
-
-    override fun onBindViewHolder(holder: MainViewHolder, position: Int) {
-        holder.titleTextView.text = tasks[position].taskTitle
-    }
-
-    override fun getItemCount(): Int = tasks.size
-
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MainViewHolder {
-        val layoutInflater = LayoutInflater.from(context)
-        val view = layoutInflater.inflate(R.layout.item_main, parent, false)
-
-        view.setOnClickListener { _ ->
-            recyclerView?.let {
-                itemClickListener.onItemClick(view, it.getChildAdapterPosition(view))
-            }
-        }
-
-        return MainViewHolder(view)
-    }
-
-    fun removeAt(position: Int) {
-        presenter.deleteTask(tasks[position].id)
-    }
-}
-
-class MainViewHolder(view: View): RecyclerView.ViewHolder(view) {
-
-    interface ItemClickListener {
-        fun onItemClick(view: View, position: Int)
-    }
-
-    val titleTextView: TextView = view.titleTextView
-
-    init {
         // do something here
     }
 }

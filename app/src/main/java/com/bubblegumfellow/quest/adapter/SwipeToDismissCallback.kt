@@ -1,4 +1,4 @@
-package com.bubblegumfellow.quest
+package com.bubblegumfellow.quest.adapter
 
 import android.content.Context
 import android.graphics.*
@@ -6,6 +6,7 @@ import android.graphics.drawable.ColorDrawable
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
+import com.bubblegumfellow.quest.R
 
 abstract class SwipeToDismissCallback(context: Context)
     : ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.RIGHT or ItemTouchHelper.LEFT) {
