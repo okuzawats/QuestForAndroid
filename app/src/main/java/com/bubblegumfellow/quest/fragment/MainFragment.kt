@@ -34,6 +34,11 @@ class MainFragment: Fragment(), MainContract.View, MainViewHolder.ItemClickListe
         }
     }
 
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        lifecycle.addObserver(presenter)
+    }
+
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         super.onCreateView(inflater, container, savedInstanceState)
         return inflater.inflate(R.layout.fragment_main, container, false)
@@ -64,6 +69,11 @@ class MainFragment: Fragment(), MainContract.View, MainViewHolder.ItemClickListe
 
         val itemTouchHelper = ItemTouchHelper(swipeHandler)
         itemTouchHelper.attachToRecyclerView(recyclerView)
+    }
+
+    override fun onDetach() {
+        super.onDetach()
+        lifecycle.removeObserver(presenter)
     }
 
     override fun onItemClick(view: View, position: Int) {
