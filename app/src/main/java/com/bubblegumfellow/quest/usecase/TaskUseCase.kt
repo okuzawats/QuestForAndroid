@@ -5,4 +5,5 @@ import io.realm.RealmResults
 
 interface TaskUseCase {
     fun getTasks(): RealmResults<Task>
+    fun deleteTask(id: String)
 }

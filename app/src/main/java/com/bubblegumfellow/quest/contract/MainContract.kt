@@ -10,7 +10,5 @@ interface MainContract {
         fun getTasks(): RealmResults<Task>
     }
 
-    interface View {
-
-    }
+    interface View
 }

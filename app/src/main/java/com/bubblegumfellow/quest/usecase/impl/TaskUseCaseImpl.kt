@@ -7,9 +7,14 @@ import io.realm.RealmResults
 
 class TaskUseCaseImpl: TaskUseCase {
     override fun getTasks(): RealmResults<Task> {
-        val realm = Realm.getDefaultInstance()
-        val tasks = realm.where(Task::class.java).findAll().sort("created")
+        return Realm.getDefaultInstance().where(Task::class.java).findAll().sort("created")
+    }
 
-        return tasks
+    override fun deleteTask(id: String) {
+        val realm = Realm.getDefaultInstance()
+        realm.executeTransaction { r ->
+            r.where(Task::class.java).equalTo("id", id).findAll().deleteAllFromRealm()
+        }
+        realm.close()
     }
 }

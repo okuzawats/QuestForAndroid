@@ -13,12 +13,13 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bubblegumfellow.quest.R
 import com.bubblegumfellow.quest.SwipeToDismissCallback
+import com.bubblegumfellow.quest.contract.MainAdapterContract
 import com.bubblegumfellow.quest.contract.MainContract
+import com.bubblegumfellow.quest.presenter.MainAdapterPresenter
 import com.bubblegumfellow.quest.presenter.MainPresenter
 import com.bubblegumfellow.quest.realm.Task
 import com.bubblegumfellow.quest.usecase.impl.TaskUseCaseImpl
 import io.realm.OrderedRealmCollection
-import io.realm.Realm
 import io.realm.RealmRecyclerViewAdapter
 import kotlinx.android.synthetic.main.fragment_main.*
 import kotlinx.android.synthetic.main.item_main.view.*
@@ -32,11 +33,6 @@ class MainFragment: Fragment(), MainContract.View, MainViewHolder.ItemClickListe
         fun getInstance(): MainFragment {
             return MainFragment()
         }
-    }
-
-    override fun onAttach(context: Context) {
-        super.onAttach(context)
-        lifecycle.addObserver(presenter)
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -71,6 +67,11 @@ class MainFragment: Fragment(), MainContract.View, MainViewHolder.ItemClickListe
         itemTouchHelper.attachToRecyclerView(recyclerView)
     }
 
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        lifecycle.addObserver(presenter)
+    }
+
     override fun onDetach() {
         super.onDetach()
         lifecycle.removeObserver(presenter)
@@ -85,7 +86,11 @@ class MainAdapter(private val context: Context,
                   private val itemClickListener: MainViewHolder.ItemClickListener,
                   private val tasks: OrderedRealmCollection<Task>,
                   autoUpdate: Boolean): RealmRecyclerViewAdapter<Task, MainViewHolder>(tasks, autoUpdate) {
+
     private var recyclerView: RecyclerView? = null
+
+    // TODO：DI
+    private var presenter: MainAdapterContract.Presenter = MainAdapterPresenter(TaskUseCaseImpl())
 
     override fun onAttachedToRecyclerView(recyclerView: RecyclerView) {
         super.onAttachedToRecyclerView(recyclerView)
@@ -117,14 +122,7 @@ class MainAdapter(private val context: Context,
     }
 
     fun removeAt(position: Int) {
-        val primaryKeyToDelete = tasks[position].id
-
-        // TODO：この処理はUse Caseに切り出す
-        val realm = Realm.getDefaultInstance()
-        realm.executeTransaction { r ->
-            r.where(Task::class.java).equalTo("id", primaryKeyToDelete).findAll().deleteAllFromRealm()
-        }
-        realm.close()
+        presenter.deleteTask(tasks[position].id)
     }
 }
 
