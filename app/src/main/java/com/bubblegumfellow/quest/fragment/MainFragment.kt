@@ -13,6 +13,8 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bubblegumfellow.quest.R
 import com.bubblegumfellow.quest.SwipeToDismissCallback
+import com.bubblegumfellow.quest.contract.MainContract
+import com.bubblegumfellow.quest.presenter.MainPresenter
 import com.bubblegumfellow.quest.realm.Task
 import io.realm.OrderedRealmCollection
 import io.realm.Realm
@@ -20,8 +22,10 @@ import io.realm.RealmRecyclerViewAdapter
 import kotlinx.android.synthetic.main.fragment_main.*
 import kotlinx.android.synthetic.main.item_main.view.*
 
+class MainFragment: Fragment(), MainContract.View, MainViewHolder.ItemClickListener {
 
-class MainFragment: Fragment(), MainViewHolder.ItemClickListener {
+    // TODO：DI
+    private val presenter: MainContract.Presenter = MainPresenter()
 
     companion object {
         fun getInstance(): MainFragment {
@@ -36,16 +40,13 @@ class MainFragment: Fragment(), MainViewHolder.ItemClickListener {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        presenter.setView(this)
 
         val context = context ?: return
 
-        // TODO：この処理はUse Caseに切り出す
-        val realm = Realm.getDefaultInstance()
-        val tasks = realm.where(Task::class.java).findAll().sort("created")
-
         val dividerItemDecoration = DividerItemDecoration(context, LinearLayoutManager(context).orientation)
         recyclerView.apply {
-            adapter = MainAdapter(context, this@MainFragment, tasks, true)
+            adapter = MainAdapter(context, this@MainFragment, presenter.getTasks(), true)
             layoutManager = LinearLayoutManager(context)
             setHasFixedSize(true)
             addItemDecoration(dividerItemDecoration)
