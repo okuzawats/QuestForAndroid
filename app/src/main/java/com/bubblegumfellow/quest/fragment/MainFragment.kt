@@ -90,9 +90,7 @@ class MainAdapter(private val context: Context,
         holder.titleTextView.text = tasks[position].taskTitle
     }
 
-    override fun getItemCount(): Int {
-        return tasks.size
-    }
+    override fun getItemCount(): Int = tasks.size
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MainViewHolder {
         val layoutInflater = LayoutInflater.from(context)
