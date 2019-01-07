@@ -2,10 +2,11 @@ package com.bubblegumfellow.quest.presenter
 
 import com.bubblegumfellow.quest.contract.MainContract
 import com.bubblegumfellow.quest.realm.Task
+import com.bubblegumfellow.quest.usecase.TaskUseCase
 import io.realm.Realm
 import io.realm.RealmResults
 
-class MainPresenter: MainContract.Presenter {
+class MainPresenter(private val taskUseCase: TaskUseCase): MainContract.Presenter {
 
     private lateinit var view: MainContract.View
 
@@ -13,11 +14,5 @@ class MainPresenter: MainContract.Presenter {
         this.view = view
     }
 
-    override fun getTasks(): RealmResults<Task> {
-        // TODO：この処理はUse Caseに切り出す
-        val realm = Realm.getDefaultInstance()
-        val tasks = realm.where(Task::class.java).findAll().sort("created")
-
-        return tasks
-    }
+    override fun getTasks(): RealmResults<Task> = taskUseCase.getTasks()
 }

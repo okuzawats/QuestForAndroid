@@ -16,6 +16,7 @@ import com.bubblegumfellow.quest.SwipeToDismissCallback
 import com.bubblegumfellow.quest.contract.MainContract
 import com.bubblegumfellow.quest.presenter.MainPresenter
 import com.bubblegumfellow.quest.realm.Task
+import com.bubblegumfellow.quest.usecase.impl.TaskUseCaseImpl
 import io.realm.OrderedRealmCollection
 import io.realm.Realm
 import io.realm.RealmRecyclerViewAdapter
@@ -25,7 +26,7 @@ import kotlinx.android.synthetic.main.item_main.view.*
 class MainFragment: Fragment(), MainContract.View, MainViewHolder.ItemClickListener {
 
     // TODO：DI
-    private val presenter: MainContract.Presenter = MainPresenter()
+    private val presenter: MainContract.Presenter = MainPresenter(TaskUseCaseImpl())
 
     companion object {
         fun getInstance(): MainFragment {
