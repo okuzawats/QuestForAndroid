@@ -16,13 +16,13 @@ import com.bubblegumfellow.quest.adapter.MainViewHolder
 import com.bubblegumfellow.quest.adapter.SwipeToDismissCallback
 import com.bubblegumfellow.quest.contract.MainContract
 import com.bubblegumfellow.quest.presenter.MainPresenter
-import com.bubblegumfellow.quest.usecase.impl.TaskUseCaseImpl
 import kotlinx.android.synthetic.main.fragment_main.*
+import org.koin.android.ext.android.inject
 
 class MainFragment: Fragment(), MainContract.View, MainViewHolder.ItemClickListener {
 
-    // TODO：DI
-    private val presenter: MainContract.Presenter = MainPresenter(TaskUseCaseImpl())
+    // MainContract.Presenterを使いたいが、Koinのチュートリアルに従ってこうしておく
+    val presenter: MainPresenter by inject()
 
     companion object {
         fun getInstance(): MainFragment {
