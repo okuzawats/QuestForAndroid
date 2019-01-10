@@ -6,6 +6,15 @@ import io.realm.Realm
 import io.realm.RealmResults
 
 class TaskUseCaseImpl: TaskUseCase {
+    override fun addTask(taskTitle: String) {
+        val realm = Realm.getDefaultInstance()
+        realm.executeTransaction { r ->
+            val task = Task(taskTitle = taskTitle)
+            r.copyToRealmOrUpdate(task)
+        }
+        realm.close()
+    }
+
     override fun getTasks(): RealmResults<Task> {
         return Realm.getDefaultInstance().where(Task::class.java).findAll().sort("created")
     }

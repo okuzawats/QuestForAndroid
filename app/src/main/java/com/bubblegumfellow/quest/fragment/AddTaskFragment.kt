@@ -6,11 +6,14 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import com.bubblegumfellow.quest.R
-import com.bubblegumfellow.quest.realm.Task
-import io.realm.Realm
+import com.bubblegumfellow.quest.presenter.AddTaskPresenter
 import kotlinx.android.synthetic.main.fragment_add_project.*
+import org.koin.android.ext.android.inject
 
 class AddTaskFragment : Fragment() {
+
+    // FIXME：AddTaskContract.Presenterを使いたいが、Koinのチュートリアルに従って一旦こうしておく
+    val presenter: AddTaskPresenter by inject()
 
     companion object {
         fun getInstance(): AddTaskFragment {
@@ -28,15 +31,7 @@ class AddTaskFragment : Fragment() {
 
         addProjectButton.setOnClickListener { _ ->
             val taskTitle = taskTitleEditText.text.toString()
-
-            // TODO：この処理はUseCaseに切り出す
-            val realm = Realm.getDefaultInstance()
-            realm.executeTransaction { r ->
-                val task = Task(taskTitle = taskTitle)
-                r.copyToRealmOrUpdate(task)
-            }
-            realm.close()
-
+            presenter.addTask(taskTitle)
             activity?.finish()
         }
     }

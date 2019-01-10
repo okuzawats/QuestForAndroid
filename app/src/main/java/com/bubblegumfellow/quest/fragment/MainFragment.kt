@@ -21,7 +21,7 @@ import org.koin.android.ext.android.inject
 
 class MainFragment: Fragment(), MainContract.View, MainViewHolder.ItemClickListener {
 
-    // MainContract.Presenterを使いたいが、Koinのチュートリアルに従ってこうしておく
+    // FIXME：MainContract.Presenterを使いたいが、Koinのチュートリアルに従って一旦こうしておく
     val presenter: MainPresenter by inject()
 
     companion object {
