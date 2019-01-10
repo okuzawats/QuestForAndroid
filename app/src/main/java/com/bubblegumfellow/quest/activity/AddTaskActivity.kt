@@ -4,10 +4,10 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.MenuItem
 import com.bubblegumfellow.quest.R
-import com.bubblegumfellow.quest.fragment.AddProjectFragment
+import com.bubblegumfellow.quest.fragment.AddTaskFragment
 import kotlinx.android.synthetic.main.activity_add_project.*
 
-class AddProjectActivity : AppCompatActivity() {
+class AddTaskActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -20,7 +20,7 @@ class AddProjectActivity : AppCompatActivity() {
 
         if (savedInstanceState == null) {
             supportFragmentManager.beginTransaction().apply {
-                add(R.id.container, AddProjectFragment.getInstance())
+                add(R.id.container, AddTaskFragment.getInstance())
                 commit()
             }
         }

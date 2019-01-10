@@ -10,11 +10,11 @@ import com.bubblegumfellow.quest.realm.Task
 import io.realm.Realm
 import kotlinx.android.synthetic.main.fragment_add_project.*
 
-class AddProjectFragment : Fragment() {
+class AddTaskFragment : Fragment() {
 
     companion object {
-        fun getInstance(): AddProjectFragment {
-            return AddProjectFragment()
+        fun getInstance(): AddTaskFragment {
+            return AddTaskFragment()
         }
     }
 

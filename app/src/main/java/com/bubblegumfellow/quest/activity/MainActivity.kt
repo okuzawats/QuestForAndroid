@@ -25,7 +25,7 @@ class MainActivity : AppCompatActivity() {
         }
 
         fab.setOnClickListener {
-            val intent = Intent(this, AddProjectActivity::class.java)
+            val intent = Intent(this, AddTaskActivity::class.java)
             startActivity(intent)
         }
     }
